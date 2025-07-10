@@ -8,6 +8,6 @@ export const setToken = jwtToken => Cookies.set(TOKEN, jwtToken, {expires: 30})
 
 export const getToken = () => Cookies.get(TOKEN)
 
-export const remvoeToken = () => Cookies.remove(TOKEN)
+export const removeToken = () => Cookies.remove(TOKEN)
 
 export const isAuthenticated = () => !!getToken()
