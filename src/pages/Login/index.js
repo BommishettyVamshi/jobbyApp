@@ -1,6 +1,7 @@
 import {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 import {WEBSITE_LOGO_URL, API_STATUS_CONSTANTS} from '../../utils/constants'
-import {setToken} from '../../utils/auth'
+import {setToken, isAuthenticated} from '../../utils/auth'
 import {loginUser} from '../../services/api'
 
 import './index.css'
@@ -55,6 +56,10 @@ class Login extends Component {
   }
 
   render() {
+    if (isAuthenticated()) {
+      return <Redirect to="/" />
+    }
+
     const {username, password, showErrorMessage, errorMessage} = this.state
 
     return (
@@ -68,8 +73,8 @@ class Login extends Component {
             />
           </div>
           <form className="login-form-card" onSubmit={this.onSubmitLogin}>
-            <div className="input-card">
-              <label htmlFor="username" className="label-field">
+            <div className="login-input-card">
+              <label htmlFor="username" className="login-label-field">
                 USERNAME
               </label>
               <input
@@ -77,12 +82,12 @@ class Login extends Component {
                 value={username}
                 placeholder="Username"
                 id="username"
-                className="input-field"
+                className="login-input-field"
                 onChange={this.changeUsername}
               />
             </div>
-            <div className="input-card">
-              <label htmlFor="password" className="label-field">
+            <div className="login-input-card">
+              <label htmlFor="password" className="login-label-field">
                 PASSWORD
               </label>
               <input
@@ -90,7 +95,7 @@ class Login extends Component {
                 value={password}
                 placeholder="Password"
                 id="password"
-                className="input-field"
+                className="login-input-field"
                 onChange={this.changePassword}
               />
             </div>

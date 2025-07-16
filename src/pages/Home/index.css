@@ -76,6 +76,7 @@
 .home-button-card {
   display: flex;
   justify-content: flex-start;
+  text-decoration: none;
 }
 
 .home-jobs-button {

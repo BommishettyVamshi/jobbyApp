@@ -1,0 +1,10 @@
+.link-item {
+  height: 100%;
+  width: 100%;
+}
+
+.similar-card {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+}

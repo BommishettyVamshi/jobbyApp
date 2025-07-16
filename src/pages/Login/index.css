@@ -46,14 +46,14 @@
   width: 100%;
 }
 
-.input-card {
+.login-input-card {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
 }
 
-.label-field {
+.login-label-field {
   color: #f8fafc;
   font-weight: 500;
   font-size: 13px;
@@ -62,7 +62,7 @@
   outline: none;
 }
 
-.input-field {
+.login-input-field {
   background-color: transparent;
   border: 1px solid #475569;
   border-radius: 3px;

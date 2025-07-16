@@ -1,20 +1,21 @@
 import {Link, withRouter} from 'react-router-dom'
 import {FaStar, FaBriefcase, FaMapMarkerAlt} from 'react-icons/fa'
 
+import '../JobCard/index.css'
 import './index.css'
 
-const JobCard = props => {
-  const {jobDetails} = props
+const SimilarJobCard = props => {
+  const {similarJobDetails} = props
+
   const {
+    id,
     companyLogoUrl,
     employmentType,
-    id,
     jobDescription,
     location,
-    packagePerAnnum,
     rating,
     title,
-  } = jobDetails
+  } = similarJobDetails
 
   return (
     <Link
@@ -23,13 +24,14 @@ const JobCard = props => {
         state: {title},
       }}
       className="link-item"
+      onClick={() => console.log('Navigating to job:', id)}
     >
       <li className="job-card">
         <div className="card-1">
           <img
             src={companyLogoUrl}
             className="company-logo"
-            alt="company logo"
+            alt="similar job company logo"
           />
           <div className="details-card">
             <h1 className="job-title">{title}</h1>
@@ -39,29 +41,23 @@ const JobCard = props => {
             </div>
           </div>
         </div>
-        <div className="card-2">
-          <div className="sub-card-1">
-            <div className="sub-card-2">
-              <div className="location-card">
-                <FaMapMarkerAlt className="location-icon" />
-                <p className="location">{location}</p>
-              </div>
-              <div className="employment-type-card">
-                <FaBriefcase className="job-icon" />
-                <p className="employment-type">{employmentType}</p>
-              </div>
-            </div>
-            <p className="salary">{packagePerAnnum}</p>
-          </div>
-        </div>
-        <hr className="horizontal-line" />
         <div className="job-description-card">
           <h1 className="job-description-heading">Description</h1>
           <p className="job-description">{jobDescription}</p>
+        </div>
+        <div className="sub-card-2 similar-card">
+          <div className="location-card">
+            <FaMapMarkerAlt className="location-icon" />
+            <p className="location">{location}</p>
+          </div>
+          <div className="employment-type-card">
+            <FaBriefcase className="job-icon" />
+            <p className="employment-type">{employmentType}</p>
+          </div>
         </div>
       </li>
     </Link>
   )
 }
 
-export default withRouter(JobCard)
+export default withRouter(SimilarJobCard)

@@ -2,27 +2,27 @@ import {Link, withRouter} from 'react-router-dom'
 import {FaBriefcase, FaHome} from 'react-icons/fa'
 import {FiLogOut} from 'react-icons/fi'
 import {WEBSITE_LOGO_URL} from '../../utils/constants'
-import {removeToken} from '../../utils/auth'
+import {logOutUser} from '../../services/api'
 
 import './index.css'
 
 const Header = props => {
   const onClickLogout = () => {
+    logOutUser()
     const {history} = props
-    removeToken()
     history.replace('/login')
   }
 
   return (
     <div className="header-container">
       <div className="header-lg-container">
-        <div className="logo-card">
+        <Link to="/" className="logo-card">
           <img
             src={WEBSITE_LOGO_URL}
             className="header-website-logo"
             alt="website logo"
           />
-        </div>
+        </Link>
         <ul className="items-list-card">
           <Link to="/" className="item">
             <li>Home</li>

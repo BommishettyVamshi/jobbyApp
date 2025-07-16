@@ -52,6 +52,7 @@ export const API_STATUS_CONSTANTS = {
   success: 'SUCCESS',
   failure: 'FAILURE',
   inProgress: 'IN_PROGRESS',
+  noJobs: 'NO_JOBS',
 }
 
 export const WEBSITE_LOGO_URL =

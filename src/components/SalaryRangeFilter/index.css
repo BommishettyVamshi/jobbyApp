@@ -1,0 +1,46 @@
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.filter-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f1f5f9;
+  font-family: Roboto;
+}
+
+.filter-list-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  padding-left: 0px;
+}
+
+.input-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.input-field {
+  outline: none;
+  cursor: pointer;
+  accent-color: #4f46e5;
+}
+
+.label-field {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f1f5f9;
+  font-family: Roboto;
+  width: 100%;
+  cursor: pointer;
+}
