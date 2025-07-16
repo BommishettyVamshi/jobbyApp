@@ -16,27 +16,30 @@ import '../Jobs/index.css'
 import './index.css'
 
 class JobItemDetails extends Component {
-  state = {
-    status: API_STATUS_CONSTANTS.initial,
-    jobDetails: {},
-    similarJobs: [],
-    title: 'loading...',
-    skills: [],
-    lifeAtCompany: {},
+  constructor(props) {
+    super(props)
+    this.state = {
+      status: API_STATUS_CONSTANTS.initial,
+      jobDetails: {},
+      similarJobs: [],
+      title: 'loading...',
+      skills: [],
+      lifeAtCompany: {},
+    }
   }
 
   componentDidMount() {
-    const {location} = this.props
-    const {title} = location.state
-    this.setState({title})
     this.getJobDetails()
   }
 
   getJobDetails = async () => {
+    const {location} = this.props
+    const {title} = location.state
     this.setState({
       status: API_STATUS_CONSTANTS.inProgress,
       jobDetails: {},
       similarJobs: [],
+      title,
       skills: [],
       lifeAtCompany: {},
     })
@@ -70,7 +73,8 @@ class JobItemDetails extends Component {
   }
 
   renderJobDetailsSuccess = () => {
-    const {jobDetails, similarJobs, title, skills, lifeAtCompany} = this.state
+    const {jobDetails, similarJobs, title, skills} = this.state
+    const {lifeAtCompany, status} = this.state
 
     const {
       companyLogoUrl,
@@ -167,6 +171,7 @@ class JobItemDetails extends Component {
         </div>
         <div className="similar-jobs-container">
           <h1 className="job-description-heading">Similar Jobs</h1>
+          {status === API_STATUS_CONSTANTS.inProgress && <DotLoader />}
           <ul className="similar-jobs-list-card">
             {similarJobs.map(each => (
               <SimilarJobCard similarJobDetails={each} key={each.id} />

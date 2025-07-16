@@ -9,7 +9,7 @@
 .tip {
   display: flex;
   flex-direction: column;
-  gap: ;
+  gap: 10px;
 }
 
 .job-description-sub-card {
@@ -160,4 +160,13 @@
     margin: 0;
     padding: 0;
   }
+}
+
+.jobs-loader-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
 }
