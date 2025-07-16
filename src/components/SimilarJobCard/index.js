@@ -1,4 +1,4 @@
-import {Link, withRouter} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {FaStar, FaBriefcase, FaMapMarkerAlt} from 'react-icons/fa'
 
 import '../JobCard/index.css'
@@ -21,10 +21,8 @@ const SimilarJobCard = props => {
     <Link
       to={{
         pathname: `/jobs/${id}`,
-        state: {title},
       }}
       className="link-item"
-      onClick={() => console.log('Navigating to job:', id)}
     >
       <li className="job-card">
         <div className="card-1">
@@ -60,4 +58,4 @@ const SimilarJobCard = props => {
   )
 }
 
-export default withRouter(SimilarJobCard)
+export default SimilarJobCard

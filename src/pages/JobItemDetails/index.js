@@ -22,7 +22,6 @@ class JobItemDetails extends Component {
       status: API_STATUS_CONSTANTS.initial,
       jobDetails: {},
       similarJobs: [],
-      title: 'loading...',
       skills: [],
       lifeAtCompany: {},
     }
@@ -33,13 +32,10 @@ class JobItemDetails extends Component {
   }
 
   getJobDetails = async () => {
-    const {location} = this.props
-    const {title} = location.state
     this.setState({
       status: API_STATUS_CONSTANTS.inProgress,
       jobDetails: {},
       similarJobs: [],
-      title,
       skills: [],
       lifeAtCompany: {},
     })
@@ -73,7 +69,7 @@ class JobItemDetails extends Component {
   }
 
   renderJobDetailsSuccess = () => {
-    const {jobDetails, similarJobs, title, skills} = this.state
+    const {jobDetails, similarJobs, skills} = this.state
     const {lifeAtCompany, status} = this.state
 
     const {
@@ -84,6 +80,7 @@ class JobItemDetails extends Component {
       location,
       packagePerAnnum,
       rating,
+      title,
     } = jobDetails
 
     const {description, imageUrl} = lifeAtCompany
@@ -95,7 +92,7 @@ class JobItemDetails extends Component {
             <img
               src={companyLogoUrl}
               className="company-logo"
-              alt="company logo"
+              alt="job details company logo"
             />
             <div className="details-card">
               <h1 className="job-title">{title}</h1>
@@ -117,7 +114,7 @@ class JobItemDetails extends Component {
                   <p className="employment-type">{employmentType}</p>
                 </div>
               </div>
-              <h1 className="salary">{packagePerAnnum}</h1>
+              <p className="salary">{packagePerAnnum}</p>
             </div>
           </div>
           <hr className="horizontal-line" />
@@ -183,15 +180,15 @@ class JobItemDetails extends Component {
   }
 
   renderJobDetailsFailure = () => (
-    <div className="jobs-failure-card">
+    <div className="job-details-failure-card">
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
-        className="failure-image"
+        className="jobs-details-failure-image"
         alt="failure view"
       />
       <h1 className="failure-heading">Oops! Something Went Wrong</h1>
       <p className="failure-description">
-        We cannot seem to find the page you’re looking for.
+        We cannot seem to find the page you are looking for.
       </p>
       <button
         type="button"

@@ -79,18 +79,26 @@ export const fetchJobs = async (
   minimumPackage,
   searchInput,
 ) => {
-  const formattedEmploymentType = employmentTypeList.join(',') // employmentType is a array
-  console.log(formattedEmploymentType)
-  const jwtToken = getToken()
-  const url = `${API_BASE_URL}/jobs?employment_type=${formattedEmploymentType}&minimum_package=${minimumPackage}&search=${searchInput}`
-  const options = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${jwtToken}`,
-    },
-  }
-
   try {
+    const jwtToken = getToken()
+    const formattedEmploymentTypeList = employmentTypeList.join(',') || ''
+
+    const params = new URLSearchParams()
+    params.append('minimum_package', minimumPackage || '')
+    params.append('search', searchInput || '')
+
+    let url = `${API_BASE_URL}/jobs?employment_type=${formattedEmploymentTypeList}`
+
+    const otherParams = params.toString()
+    if (otherParams) {
+      url += `&${otherParams}`
+    }
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
     const response = await fetch(url, options)
 
     if (response.ok) {
@@ -145,16 +153,15 @@ export const fetchJobs = async (
 
 // logic for fecthing the job details of jobs of authenticated user
 export const fetchJobDetails = async jobId => {
-  const jwtToken = getToken()
-  const url = `${API_BASE_URL}/jobs/${jobId}`
-  const options = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${jwtToken}`,
-    },
-  }
-
   try {
+    const jwtToken = getToken()
+    const url = `${API_BASE_URL}/jobs/${jobId}`
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
     const response = await fetch(url, options)
 
     if (response.ok) {
@@ -193,6 +200,7 @@ export const fetchJobDetails = async jobId => {
         location: jobDetails.location,
         packagePerAnnum: jobDetails.package_per_annum,
         rating: jobDetails.rating,
+        title: jobDetails.title,
       }
 
       const similarJobs = data.similar_jobs

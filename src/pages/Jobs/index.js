@@ -11,6 +11,7 @@ import JobCard from '../../components/JobCard'
 import {API_STATUS_CONSTANTS} from '../../utils/constants'
 import {fetchJobs} from '../../services/api'
 
+import '../../components/Profile/index.css'
 import './index.css'
 
 class Jobs extends Component {
@@ -19,18 +20,26 @@ class Jobs extends Component {
     searchInput: '',
     employmentTypeList: [],
     minimumPackage: '',
-    jobsList: null,
+    jobsList: [],
     message: '',
+    isMobile: null,
   }
 
   componentDidMount() {
     this.getJobs()
+    this.updateViewport()
+    window.addEventListener('resize', this.updateViewport)
+  }
+
+  updateViewport = () => {
+    const isMobile = window.innerWidth <= 768
+    this.setState({isMobile})
   }
 
   getJobs = async () => {
     this.setState({
       jobStatus: API_STATUS_CONSTANTS.inProgress,
-      jobsList: null,
+      jobsList: [],
       message: '',
     })
 
@@ -41,8 +50,6 @@ class Jobs extends Component {
       minimumPackage,
       searchInput,
     )
-
-    console.log(result)
 
     if (result.status === API_STATUS_CONSTANTS.success) {
       const {data} = result
@@ -66,11 +73,15 @@ class Jobs extends Component {
     }
   }
 
-  changeEmploymentType = newList => {
+  changeEmploymentType = (employmentTypeId, checked) => {
     this.setState(
-      {
-        employmentTypeList: newList,
-      },
+      prevState => ({
+        employmentTypeList: checked
+          ? [...prevState.employmentTypeList, employmentTypeId]
+          : prevState.employmentTypeList.filter(
+              each => each !== employmentTypeId,
+            ),
+      }),
       this.getJobs,
     )
   }
@@ -127,7 +138,7 @@ class Jobs extends Component {
         />
         <h1 className="failure-heading">{message}</h1>
         <p className="failure-description">
-          We cannot seem to find the page your looking for.
+          We cannot seem to find the page you are looking for.
         </p>
         <button
           type="button"
@@ -158,9 +169,11 @@ class Jobs extends Component {
   }
 
   renderLoarder = () => (
-    <div className="jobs-loader-container">
-      <DotLoader />
-    </div>
+    <ul className="jobs-list-container">
+      <div className="jobs-loader-container">
+        <DotLoader />
+      </div>
+    </ul>
   )
 
   renderjobs = () => {
@@ -179,89 +192,99 @@ class Jobs extends Component {
     }
   }
 
-  render() {
-    const {searchInput, employmentTypeList, minimumPackage} = this.state
+  renderMobileView = () => {
+    const {searchInput, minimumPackage, employmentTypeList} = this.state
+    return (
+      <div className="jobs-sm-container">
+        <div className="jobs-sm-search-container">
+          <div className="jobs-search-card">
+            <input
+              type="search"
+              name="searchBar"
+              value={searchInput}
+              placeholder="Search"
+              onChange={this.onChangeSearchInput}
+              onKeyDown={this.onKeyDownSearchInput}
+              className="search-input-field"
+            />
+            <button
+              data-testid="searchButton"
+              type="button"
+              className="search-icon-button"
+              onClick={this.onClickSearch}
+            >
+              <BsSearch className="search-icon" />
+            </button>
+          </div>
+        </div>
 
+        <div className="jobs-feature-container">
+          <Profile />
+          <hr className="jobs-filter-horizontal-line" />
+          <EmploymentTypeFilter
+            employmentTypeList={employmentTypeList}
+            changeEmploymentType={this.changeEmploymentType}
+          />
+          <hr className="jobs-filter-horizontal-line" />
+          <SalaryRangeFilter
+            minimumPackage={minimumPackage}
+            changeSalaryRange={this.changeSalaryRange}
+          />
+        </div>
+        <div className="jobs-search-display-container">{this.renderjobs()}</div>
+      </div>
+    )
+  }
+
+  renderDesktopView = () => {
+    const {searchInput, employmentTypeList, minimumPackage} = this.state
+    return (
+      <div className="jobs-lg-container">
+        <div className="jobs-feature-container">
+          <Profile />
+          <hr className="jobs-filter-horizontal-line" />
+          <EmploymentTypeFilter
+            employmentTypeList={employmentTypeList}
+            changeEmploymentType={this.changeEmploymentType}
+          />
+          <hr className="jobs-filter-horizontal-line" />
+          <SalaryRangeFilter
+            minimumPackage={minimumPackage}
+            changeSalaryRange={this.changeSalaryRange}
+          />
+        </div>
+        <div className="jobs-search-display-container">
+          <div className="jobs-search-card">
+            <input
+              type="search"
+              name="searchBar"
+              value={searchInput}
+              placeholder="Search"
+              onChange={this.onChangeSearchInput}
+              onKeyDown={this.onKeyDownSearchInput}
+              className="search-input-field"
+            />
+            <button
+              data-testid="searchButton"
+              type="button"
+              className="search-icon-button"
+              onClick={this.onClickSearch}
+            >
+              <BsSearch className="search-icon" />
+            </button>
+          </div>
+          {this.renderjobs()}
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    const {isMobile} = this.state
     return (
       <div className="jobs-container">
         <Header />
-        <div className="jobs-lg-container">
-          <div className="jobs-feature-container">
-            <Profile />
-            <hr className="jobs-filter-horizontal-line" />
-            <EmploymentTypeFilter
-              employmentTypeList={employmentTypeList}
-              changeEmploymentType={this.changeEmploymentType}
-            />
-            <hr className="jobs-filter-horizontal-line" />
-            <SalaryRangeFilter
-              minimumPackage={minimumPackage}
-              changeSalaryRange={this.changeSalaryRange}
-            />
-          </div>
-          <div className="jobs-search-display-container">
-            <div className="jobs-search-card">
-              <input
-                type="search"
-                name="searchBar"
-                value={searchInput}
-                placeholder="Search"
-                onChange={this.onChangeSearchInput}
-                onKeyDown={this.onKeyDownSearchInput}
-                className="search-input-field"
-              />
-              <button
-                data-testid="SearchButton"
-                type="button"
-                className="search-icon-button"
-                onClick={this.onClickSearch}
-              >
-                <BsSearch className="search-icon" />
-              </button>
-            </div>
-            {this.renderjobs()}
-          </div>
-        </div>
-        <div className="jobs-sm-container">
-          <div className="jobs-sm-search-container">
-            <div className="jobs-search-card">
-              <input
-                type="search"
-                name="searchBar"
-                value={searchInput}
-                placeholder="Search"
-                onChange={this.onChangeSearchInput}
-                onKeyDown={this.onKeyDownSearchInput}
-                className="search-input-field"
-              />
-              <button
-                data-testid="searchButton"
-                type="button"
-                className="search-icon-button"
-                onClick={this.onClickSearch}
-              >
-                <BsSearch className="search-icon" />
-              </button>
-            </div>
-          </div>
-
-          <div className="jobs-feature-container">
-            <Profile />
-            <hr className="jobs-filter-horizontal-line" />
-            <EmploymentTypeFilter
-              employmentTypeList={employmentTypeList}
-              changeEmploymentType={this.changeEmploymentType}
-            />
-            <hr className="jobs-filter-horizontal-line" />
-            <SalaryRangeFilter
-              minimumPackage={minimumPackage}
-              changeSalaryRange={this.changeSalaryRange}
-            />
-          </div>
-          <div className="jobs-search-display-container">
-            {this.renderjobs()}
-          </div>
-        </div>
+        {isMobile ? this.renderMobileView() : this.renderDesktopView()}
       </div>
     )
   }

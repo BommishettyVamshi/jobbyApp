@@ -20,7 +20,6 @@ const JobCard = props => {
     <Link
       to={{
         pathname: `/jobs/${id}`,
-        state: {title},
       }}
       className="link-item"
     >

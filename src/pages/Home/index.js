@@ -13,7 +13,7 @@ const Home = () => (
           Millions of people are searching for jobs, salary, information,
           company reviews. Find the job that fits your abilities and potential.
         </p>
-        <Link to="/jobs" className="home-button-card">
+        <Link to="/jobs">
           <button type="button" className="home-jobs-button">
             Find Jobs
           </button>

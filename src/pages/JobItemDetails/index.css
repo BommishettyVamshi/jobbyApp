@@ -170,3 +170,17 @@
   align-items: center;
   background-color: #000000;
 }
+
+.job-details-failure-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  height: 100vh;
+  width: 100vw;
+}
+
+.jobs-details-failure-image {
+  height: 50%;
+  width: 50%;
+}
